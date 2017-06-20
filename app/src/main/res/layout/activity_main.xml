@@ -38,4 +38,22 @@
         android:layout_alignStart="@+id/bb"
         android:layout_marginTop="26dp"
         android:id="@+id/cc" />
+
+    <TextView
+        android:text="pressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dd"
+        android:layout_alignStart="@+id/dd"
+        android:layout_marginTop="27dp"
+        android:id="@+id/ee" />
+
+    <TextView
+        android:text="size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:id="@+id/dd"
+        android:layout_below="@+id/cc"
+        android:layout_alignStart="@+id/cc" />
 </RelativeLayout>
