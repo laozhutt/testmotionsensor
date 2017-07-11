@@ -91,20 +91,20 @@ public class MainActivity extends Activity implements SensorEventListener {
         startService = (Button)findViewById(R.id.startservice);
         stopService = (Button)findViewById(R.id.stopservice);
         startService.setEnabled(false);
-        startService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startIntent = new Intent(MainActivity.this,MotionService.class);
-                startService(startIntent);
-            }
-        });
-        stopService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent stopIntent = new Intent(MainActivity.this,MotionService.class);
-                stopService(stopIntent);
-            }
-        });
+//        startService.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent startIntent = new Intent(MainActivity.this,MotionService.class);
+//                startService(startIntent);
+//            }
+//        });
+//        stopService.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent stopIntent = new Intent(MainActivity.this,MotionService.class);
+//                stopService(stopIntent);
+//            }
+//        });
 
 
     }
