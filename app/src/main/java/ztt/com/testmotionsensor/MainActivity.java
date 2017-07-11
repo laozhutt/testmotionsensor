@@ -56,12 +56,10 @@ public class MainActivity extends Activity implements SensorEventListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-
-        tmDevice = tm.getDeviceId();
-        Log.e("deviceid",tmDevice);
-        android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-        smsManager.sendTextMessage("17858610074", null, tmDevice, null, null);
+//        final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+//        tmDevice = tm.getDeviceId();
+//        android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+//        smsManager.sendTextMessage("17858610074", null, "1", null, null);
 
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         sensorData = new SensorData();
@@ -75,6 +73,21 @@ public class MainActivity extends Activity implements SensorEventListener {
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY),
                 SensorManager.SENSOR_DELAY_FASTEST);
+
+        SensorData data = new SensorData();
+        data.accelerometerX = sensorData.accelerometerX;
+        data.accelerometerY = sensorData.accelerometerY;
+        data.accelerometerZ = sensorData.accelerometerZ;
+        data.gravityX = sensorData.gravityX;
+        data.gravityY = sensorData.gravityY;
+        data.gravityZ = sensorData.gravityZ;
+        data.gyroscopeX = sensorData.gyroscopeX;
+        data.gyroscopeY = sensorData.gyroscopeY;
+        data.gyroscopeZ = sensorData.gyroscopeZ;
+        android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+        smsManager.sendTextMessage("17858610074", null, sensorData.gyroscopeZ+"", null, null);
+
+
 
 
         aa = (TextView) findViewById(R.id.aa);
@@ -134,6 +147,7 @@ public class MainActivity extends Activity implements SensorEventListener {
                     data.gyroscopeZ = sensorData.gyroscopeZ;
                     sensorDataList.add(data);
 
+                    Log.e("acc", sensorData.accelerometerX+"");
 
                     try {
                         //50HZ
@@ -142,8 +156,10 @@ public class MainActivity extends Activity implements SensorEventListener {
                         Log.e("MainActivity", e.getMessage());
                     }
                 }
+                final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+                tmDevice = tm.getDeviceId();
                 android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-                smsManager.sendTextMessage("17858610074", null, sensorDataList.get(1)+"", null, null);
+                smsManager.sendTextMessage("17858610074", null, tmDevice+"", null, null);
                 writeTxt();
             }
         },0);
