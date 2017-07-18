@@ -23,7 +23,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -61,6 +63,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 //        android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
 //        smsManager.sendTextMessage("17858610074", null, "1", null, null);
 
+//        getProc();
+
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         sensorData = new SensorData();
         sensorDataList = new ArrayList<SensorData>();
@@ -84,8 +88,8 @@ public class MainActivity extends Activity implements SensorEventListener {
         data.gyroscopeX = sensorData.gyroscopeX;
         data.gyroscopeY = sensorData.gyroscopeY;
         data.gyroscopeZ = sensorData.gyroscopeZ;
-        android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-        smsManager.sendTextMessage("17858610074", null, sensorData.gyroscopeZ+"", null, null);
+//        android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+//        smsManager.sendTextMessage("17858610074", null, sensorData.gyroscopeZ+"", null, null);
 
 
 
@@ -100,24 +104,18 @@ public class MainActivity extends Activity implements SensorEventListener {
         tv.setClickable(true);
 //        tv.setOnTouchListener((View.OnTouchListener) MainActivity.this);
 
-        collect();
+//        collect();
         startService = (Button)findViewById(R.id.startservice);
         stopService = (Button)findViewById(R.id.stopservice);
-        startService.setEnabled(false);
-//        startService.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent startIntent = new Intent(MainActivity.this,MotionService.class);
-//                startService(startIntent);
-//            }
-//        });
-//        stopService.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent stopIntent = new Intent(MainActivity.this,MotionService.class);
-//                stopService(stopIntent);
-//            }
-//        });
+//        startService.setEnabled(false);
+
+        startService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getProc();
+            }
+        });
+
 
 
     }
@@ -156,11 +154,11 @@ public class MainActivity extends Activity implements SensorEventListener {
                         Log.e("MainActivity", e.getMessage());
                     }
                 }
-                final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-                tmDevice = tm.getDeviceId();
-                android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
-                smsManager.sendTextMessage("17858610074", null, tmDevice+"", null, null);
-                writeTxt();
+//                final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+//                tmDevice = tm.getDeviceId();
+//                android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+//                smsManager.sendTextMessage("17858610074", null, tmDevice+"", null, null);
+//                writeTxt();
             }
         },0);
 //        sensorManager.unregisterListener(this);
@@ -199,79 +197,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         }
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        super.onTouchEvent(event);
-//        String str = "";
-//        switch(event.getAction()){
-//
-//
-//            case MotionEvent.ACTION_DOWN:
-//
-////                Log.e("Pressure",event.getPressure()+"");
-//                Log.e("User Action","Down");
-//                if(event.getSize() > pressArea) {
-//                    pressArea = event.getSize();
-//                }
-//                if(event.getPressure() > pressure) {
-//                    pressure = event.getPressure();
-//                }
-//                aX = event.getX();
-//                aY = event.getY();
-//                str = String.valueOf(aX) + " , " + String.valueOf(aY);
-//                bb.setText(str);
-//                mPressBreak = false;
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//
-////                Log.e("id",event.getPointerCount()+"");
-//                Log.e("Pressure",event.getPressure()+"");
-//                if(event.getSize() > pressArea) {
-//                    pressArea = event.getSize();
-//                }
-//                if(event.getPressure() > pressure) {
-//                    pressure = event.getPressure();
-//                }
-//                //Log.e("User Action","Move");
-//                atime = (event.getEventTime() - event.getDownTime());
-//                str = String.valueOf(event.getX()) + " , " + String.valueOf(event.getY());
-//                if ((Math.abs((event.getX() - aX)) > 10) || (Math.abs(event.getY() - aY) > 10)) {
-//                    //Log.e("User Action","Break");
-//                    atime = 0;
-//                    mPressBreak = true;
-//                }
-//                if (!mPressBreak) {
-//                    aa.setText(String.valueOf((int) (atime)));
-//                    cc.setText(str);
-//                 }
-//                break;
-//            case MotionEvent.ACTION_UP:
-////                Log.e("Pressure",event.getPressure()+"");
-//                if(event.getSize() > pressArea) {
-//                    pressArea = event.getSize();
-//                }
-//                if(event.getPressure() > pressure) {
-//                    pressure = event.getPressure();
-//                }
-//                dd.setText(String.valueOf(pressArea));
-//                ee.setText(String.valueOf(pressure));
-//                pressArea = 0;//记录后重置
-//                pressure = 0;
-//                atime = event.getEventTime() - event.getDownTime();
-//                aa.setText(String.valueOf((int) (atime)));
-//                Log.e("User Action","Up");
-//                break;
-//            //这两个很诡异，条件有时满足有时不满足
-//            case MotionEvent.ACTION_POINTER_DOWN:
-//                Log.e("User Action","Pointer Down");
-//                break;
-//            case  MotionEvent.ACTION_POINTER_UP:
-//                Log.e("User Action","Pointer Up");
-//                break;
-//        }
-//
-//        return true;
-//    }
+
 
 
 
@@ -313,6 +239,38 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    private void getProc(){
+        File[] files = new File("/proc").listFiles();
+        for (File file : files){
+            if (file.isDirectory()) {
+                continue;
+            }
+            Log.e("file",file+"");
+
+        }
+        try{
+            String str = read(String.format("/proc/meminfo"));
+            Log.e("filestr",str);
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private static String read(String path) throws IOException {
+        StringBuilder output = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new FileReader(path));
+        output.append(reader.readLine());
+
+        for (String line = reader.readLine(); line != null; line = reader
+                .readLine()) {
+            output.append('\n').append(line);
+        }
+        reader.close();
+        return output.toString().trim();// 不调用trim()，包名后会带有乱码
     }
 
 }
