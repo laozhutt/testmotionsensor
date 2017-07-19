@@ -112,7 +112,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         startService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getProc();
+                collect();
             }
         });
 
@@ -130,7 +130,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                while(sensorDataList.size()<50) {
+                while(sensorDataList.size()< 150) {
 
 
                     SensorData data = new SensorData();
@@ -145,7 +145,15 @@ public class MainActivity extends Activity implements SensorEventListener {
                     data.gyroscopeZ = sensorData.gyroscopeZ;
                     sensorDataList.add(data);
 
-                    Log.e("acc", sensorData.accelerometerX+"");
+                    Log.e("accX", sensorData.accelerometerX+"");
+                    Log.e("accY", sensorData.accelerometerY+"");
+                    Log.e("accZ", sensorData.accelerometerZ+"");
+                    Log.e("Grax", sensorData.gravityX+"");
+                    Log.e("Gray", sensorData.gravityY+"");
+                    Log.e("Graz", sensorData.gravityZ+"");
+                    Log.e("Gyrx", sensorData.gyroscopeX+"");
+                    Log.e("Gyry", sensorData.gyroscopeY+"");
+                    Log.e("Gyrz", sensorData.gyroscopeZ+"");
 
                     try {
                         //50HZ
@@ -158,7 +166,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 //                tmDevice = tm.getDeviceId();
 //                android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
 //                smsManager.sendTextMessage("17858610074", null, tmDevice+"", null, null);
-//                writeTxt();
+                writeTxt();
             }
         },0);
 //        sensorManager.unregisterListener(this);
@@ -178,6 +186,22 @@ public class MainActivity extends Activity implements SensorEventListener {
             Writer writer = new FileWriter(file,true);
 
             for(SensorData sensorData : sensorDataList){
+                if(Math.abs(sensorData.gravityX)<0.1 && Math.abs(sensorData.gravityY)<0.1 && Math.abs(sensorData.gravityZ)<0.1){
+                    Log.e("device","error");
+                    continue;
+                }
+                if(Math.abs(sensorData.gravityX)<1.5 && Math.abs(sensorData.gravityY)<1.5 && Math.abs(sensorData.gravityZ)>9){
+                    Log.e("device","flat");
+                    continue;
+                }
+                if (sensorData.gyroscopeX == 0 && sensorData.gyroscopeY == 0 && sensorData.gyroscopeZ == 0){
+                    Log.e("device","exception");
+                    continue;
+                }
+                if(!(sensorData.gravityZ > 0 && sensorData.gravityZ < 10 && sensorData.gravityY > 0 && sensorData.gravityY < 10 && sensorData.gravityX > -10 && sensorData.gravityX < 10)){
+                    Log.e("device","octant error");
+                    continue;
+                }
                 String string = sensorData.accelerometerX+"\n"+
                         sensorData.accelerometerY+"\n"+
                         sensorData.accelerometerZ+"\n"+
